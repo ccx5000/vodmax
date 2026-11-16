@@ -3,7 +3,7 @@
      file; scripts/release.sh packs both into VodMax.wgt, unsigned (the
      installer, e.g. Apps2Samsung or Tizen Studio, signs it for the TV). -->
 <widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets"
-        id="https://vodmax.silirim.com/tizen" version="0.6.19" viewmodes="maximized">
+        id="https://vodmax.silirim.com/tizen" version="0.6.20" viewmodes="maximized">
   <tizen:application id="vodmaxclnt.VodMax" package="vodmaxclnt" required_version="2.3"/>
   <tizen:profile name="tv-samsung"/>
   <content src="index.html"/>
