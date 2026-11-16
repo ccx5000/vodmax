@@ -753,9 +753,17 @@ window.VodMax = (() => {
     return data;
   }
 
-  // Remote control keys of browsers, LG webOS and Android TV.
+  // Samsung Tizen keeps the colour, channel and media keys unless the app
+  // asks; the launcher asks too, this covers a TV that forgets on navigation.
+  try {
+    ["ColorF0Red", "ColorF1Green", "ColorF2Yellow", "ColorF3Blue", "ChannelUp", "ChannelDown",
+      "MediaPlayPause", "MediaPlay", "MediaPause", "MediaStop", "Info", "Guide"]
+      .forEach((k) => window.tizen.tvinputdevice.registerKey(k));
+  } catch { /* not Tizen, or the page has no Tizen API */ }
+
+  // Remote control keys of browsers, LG webOS, Samsung Tizen and Android TV.
   function keyOf(e) {
-    const byCode = { 33: "ChannelUp", 34: "ChannelDown", 403: "Red", 404: "Green", 405: "Yellow", 406: "Blue",
+    const byCode = { 10009: "Back", 33: "ChannelUp", 34: "ChannelDown", 403: "Red", 404: "Green", 405: "Yellow", 406: "Blue",
       457: "Info", 458: "Guide", 461: "Back", 427: "ChannelUp", 428: "ChannelDown", 415: "Play", 19: "Pause", 413: "Stop" };
     if (byCode[e.keyCode]) return byCode[e.keyCode];
     const byKey = { PageUp: "ChannelUp", PageDown: "ChannelDown", ColorF0Red: "Red", ColorF1Green: "Green",

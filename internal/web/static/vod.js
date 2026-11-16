@@ -2511,9 +2511,11 @@
       else if (state.query) { state.query = ""; $("search").value = ""; render(); }
       else if (openFolder(state.view)) closeFolder(KIND[state.view]); // Cartelle: back to the folders
       // As on Android: Back goes to Home, and from Home leaves the TV app
-      // (webOS hands Back to the page and closes the app on window.close).
+      // (webOS and Tizen hand Back to the page; Tizen closes only via its API).
       else if (!window.VodMax.native && state.view !== "home") { state.view = "home"; render(); }
-      else if (/Web0S|webOS/.test(navigator.userAgent) && state.view === "home") window.close();
+      else if (/Web0S|webOS|Tizen/.test(navigator.userAgent) && state.view === "home") {
+        try { window.tizen.application.getCurrentApplication().exit(); } catch { window.close(); }
+      }
       e.preventDefault();
       return;
     }

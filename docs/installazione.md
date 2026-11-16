@@ -319,8 +319,12 @@ meno curata.
 
 ### Samsung e altre TV
 
-Non c'è ancora un'app Samsung (Tizen): usa il browser della TV su
-`http://<server>:8095`.
+**Samsung (beta, non ancora provata su una TV vera):** ogni versione ha
+`VodMax.wgt`, lo stesso piccolo lanciatore di LG. Non è firmato: si installa da
+un computer con uno strumento che lo firma per la tua TV, come Apps2Samsung o
+Tizen Studio (TV in modalità sviluppatore). Come su LG serve un server VodMax.
+Senza server, o su altre TV, usa il browser della TV su `http://<server>:8095`,
+oppure una chiavetta Android TV / Fire TV, dove VodMax funziona anche da sola.
 
 ### Altre app: Plex, Jellyfin, Emby, TiviMate, Kodi
 
