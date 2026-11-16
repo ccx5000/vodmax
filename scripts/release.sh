@@ -3,6 +3,7 @@
 #   vodmax-server_<v>_linux_{amd64,arm64,armv7}.tar.gz  server + systemd unit
 #   VodMax.apk                                          Android (with the built-in server)
 #   app.vodmax.client_<v>_all.ipk                        LG webOS
+#   VodMax.wgt                                           Samsung Tizen (unsigned)
 #   SHA256SUMS
 # Needs Go; for the APK the Android SDK and NDK (clients/android/local.properties)
 # and a JDK 17 (JAVA_HOME); for the IPK Node.js (npx @webos-tools/cli).
@@ -23,6 +24,7 @@ fail() { echo "release.sh: $*" >&2; [ -n "${DEBUG:-}" ] || exit 1; }
 gradle=clients/android/app/build.gradle
 grep -q "versionName \"$v\"" $gradle || fail "versionName in $gradle non è $v"
 grep -q "\"version\": *\"${v%%-*}\"" clients/webos/appinfo.json || fail "version in clients/webos/appinfo.json non è ${v%%-*}"
+grep -q "version=\"${v%%-*}\"" clients/tizen/config.xml || fail "version in clients/tizen/config.xml non è ${v%%-*}"
 code() { sed -n 's/^ *versionCode *\([0-9][0-9]*\).*/\1/p'; }
 prev=$(git describe --tags --abbrev=0 --exclude "v$v" 2>/dev/null || true)
 if [ -n "$prev" ]; then
@@ -67,6 +69,15 @@ if command -v npx >/dev/null; then
 else
   fail "npx non trovato: niente pacchetto per le TV LG"
 fi
+
+# Samsung: the LG launcher with the Tizen config.xml; the installer signs it.
+python3 - "$out/VodMax.wgt" <<'PY' || fail "pacchetto per le TV Samsung non creato"
+import sys, zipfile
+with zipfile.ZipFile(sys.argv[1], "w", zipfile.ZIP_DEFLATED) as z:
+    z.write("clients/tizen/config.xml", "config.xml")
+    for f in ("index.html", "launcher.js", "launcher.css", "icon.png"):
+        z.write("clients/webos/" + f, f)
+PY
 
 (cd "$out" && sha256sum -- * > SHA256SUMS)
 ls -l "$out"

@@ -1,4 +1,4 @@
-// VodMax for LG webOS: remembers the server address, checks that the
+// VodMax for LG webOS and Samsung Tizen: remembers the server address, checks that the
 // server answers, then opens its interface (the same as in a browser).
 // Written for old webOS browsers too (no async/await, no fetch).
 (function () {
@@ -149,18 +149,31 @@
     open(base);
   });
 
+  // Back: 461 on webOS, 10009 on Tizen. Tizen leaves only through its API.
+  function isBack(e) { return e.keyCode === 461 || e.keyCode === 10009; }
+  function quit() {
+    try { window.tizen.application.getCurrentApplication().exit(); } catch (err) { window.close(); }
+  }
+  // Tizen keeps the colour, channel and media keys unless the app asks.
+  try {
+    ["ColorF0Red", "ColorF1Green", "ColorF2Yellow", "ColorF3Blue", "ChannelUp", "ChannelDown",
+      "MediaPlayPause", "MediaPlay", "MediaPause", "MediaStop", "Info", "Guide"].forEach(function (k) {
+      window.tizen.tvinputdevice.registerKey(k);
+    });
+  } catch (err) { /* not Tizen */ }
+
   // Remote: Up/Down between the field and the buttons, Left/Right between
   // the buttons. OK or Back while connecting: the form, to change server.
-  // Back on the form leaves the app (webOS sends it to the page, 461).
+  // Back on the form leaves the app (the TV hands it to the page).
   document.addEventListener("keydown", function (e) {
-    if (checking && (e.keyCode === 13 || e.keyCode === 461)) {
+    if (checking && (e.keyCode === 13 || isBack(e))) {
       var base = checking;
       checking = null;
       e.preventDefault();
       showForm(base, null);
       return;
     }
-    if (e.keyCode === 461 && !$("form").hidden) { window.close(); return; }
+    if (isBack(e) && !$("form").hidden) { quit(); return; }
     var order = [$("server"), $("connect"), $("retry")].filter(function (el) { return !el.hidden; });
     var i = order.indexOf(document.activeElement);
     var onButton = document.activeElement !== $("server");

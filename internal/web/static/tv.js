@@ -915,9 +915,9 @@
     actions.toggle();
   }
 
-  // ---- Keys: browser, LG webOS and Android TV ----
+  // ---- Keys: browser, LG webOS, Samsung Tizen and Android TV ----
   function keyOf(e) {
-    const byCode = { 33: "ChannelUp", 34: "ChannelDown", 403: "Red", 404: "Green", 405: "Yellow", 406: "Blue",
+    const byCode = { 10009: "Back", 33: "ChannelUp", 34: "ChannelDown", 403: "Red", 404: "Green", 405: "Yellow", 406: "Blue",
       457: "Info", 458: "Guide", 461: "Back", 427: "ChannelUp", 428: "ChannelDown",
       415: "Play", 19: "Pause", 10252: "PlayPause", 179: "PlayPause", 93: "Info" };
     if (byCode[e.keyCode]) return byCode[e.keyCode];

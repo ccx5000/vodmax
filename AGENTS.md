@@ -94,11 +94,11 @@ update `docs/direzione.md` when the direction changes.
 Versions are `X.Y.Z`, betas `X.Y.Z-beta.N` (offered only to who opts in).
 
 1. Bump `versionCode` and `versionName` in `clients/android/app/build.gradle`
-   (the webOS `appinfo.json` keeps the numeric `X.Y.Z`).
+   (the webOS `appinfo.json` and the Tizen `config.xml` keep the numeric `X.Y.Z`).
 2. `scripts/release.sh X.Y.Z[-beta.N]` builds `dist/<version>/`: server
-   archives for amd64, arm64 and armv7, the signed APK, the webOS package and
-   `SHA256SUMS`. It needs Go, JDK 17 and the Android SDK/NDK, and Node for
-   webOS. It stops when `versionName`, `appinfo.json` or a `versionCode` not
+   archives for amd64, arm64 and armv7, the signed APK, the webOS package, the
+   unsigned Samsung `VodMax.wgt` and `SHA256SUMS`. It needs Go, JDK 17 and the Android SDK/NDK, and Node for
+   webOS. It stops when `versionName`, `appinfo.json`, `config.xml` or a `versionCode` not
    above the previous tag's do not match, when the APK or the IPK cannot be
    built, and when the APK has the debug key (`DEBUG=1` only for local tests).
 3. Look at the APK certificate (`apksigner verify --print-certs`) and run

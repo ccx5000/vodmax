@@ -315,8 +315,12 @@ older TVs work with a less polished layout.
 
 ### Samsung and other TVs
 
-There is no Samsung (Tizen) app yet: use the TV browser at
-`http://<server>:8095`.
+**Samsung (beta, still untested on a real TV):** each release has
+`VodMax.wgt`, the same small launcher as on LG. It is not signed: install it
+from a computer with a tool that signs it for your TV, such as Apps2Samsung or
+Tizen Studio (TV in Developer Mode). Like on LG it needs a VodMax server.
+Without one, or on other TVs, use the TV browser at `http://<server>:8095`, or
+an Android TV / Fire TV stick, where VodMax also runs on its own.
 
 ### Other apps: Plex, Jellyfin, Emby, TiviMate, Kodi
 
