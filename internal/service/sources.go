@@ -59,6 +59,23 @@ func (s *Service) liveURL(ctx context.Context, it store.PlaybackItem) (string, e
 	return "", invalid("questo abbonamento non ha canali in diretta")
 }
 
+// vodURL is the address of a film or episode at the provider: built for
+// Xtream, kept in the playlist for M3U (its locator, like a channel's).
+func (s *Service) vodURL(ctx context.Context, it store.PlaybackItem, kind xtream.Kind, ext string) (string, error) {
+	sub, err := s.st.Subscription(ctx, it.SubscriptionID)
+	if err != nil {
+		return "", err
+	}
+	if sub.Kind == "m3u" {
+		return s.locator(it)
+	}
+	client, err := s.xtreamClient(ctx, it.SubscriptionID, time.Minute)
+	if err != nil {
+		return "", err
+	}
+	return client.StreamURL(kind, it.SourceID, ext), nil
+}
+
 // locator opens the address (or portal command) kept with a title.
 func (s *Service) locator(it store.PlaybackItem) (string, error) {
 	if len(it.Locator) == 0 {

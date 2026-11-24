@@ -342,11 +342,10 @@ func (s *Service) NewPlaybackSession(ctx context.Context, media string, id int64
 	if local {
 		url = file
 	} else {
-		client, err := s.xtreamClient(ctx, it.SubscriptionID, time.Minute)
+		url, err = s.vodURL(ctx, it, kind, ext)
 		if err != nil {
 			return PlaybackSession{}, err
 		}
-		url = client.StreamURL(kind, sourceID, ext)
 	}
 	auto := mode == ""
 	if mode == "" {
