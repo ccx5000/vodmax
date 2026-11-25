@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!-- Unraid-Vorlage für VodMax (deutsch). Auf den Unraid-Stick nach
+     /boot/config/plugins/dockerMan/templates-user/my-VodMax.xml kopieren,
+     dann im Docker-Reiter "Container hinzufügen" → Vorlage VodMax. -->
+<Container version="2">
+  <Name>VodMax</Name>
+  <Repository>ghcr.io/silirim/vodmax:latest</Repository>
+  <Registry>https://github.com/silirim/VodMax/pkgs/container/vodmax</Registry>
+  <Network>bridge</Network>
+  <Shell>sh</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://github.com/silirim/VodMax/issues</Support>
+  <Project>https://vodmax.silirim.com</Project>
+  <Overview>Selbst gehostetes Mediacenter für Live-TV, Filme und Serien: M3U- und Xtream-Codes-Playlists, für die du eine Lizenz hast, EPG-Programmguide, Pause und Spulen, DVR-Aufnahmen, Filme und Serien aus eigenen Ordnern, Profile. Apps für Android, Android TV, Fire TV und LG webOS. Kann auch als HDHomeRun-Tuner und M3U/XMLTV-Quelle für Plex, Jellyfin und Emby dienen. VodMax liefert selbst keine Inhalte. Erste Anmeldung: Der Admin-Token liegt in appdata/vodmax/admin.token.</Overview>
+  <Category>MediaServer:Video MediaApp:Video</Category>
+  <WebUI>http://[IP]:[PORT:8095]/</WebUI>
+  <Icon>https://raw.githubusercontent.com/silirim/VodMax/main/docs/brand/vodmax-icon-256.png</Icon>
+  <ExtraParams>--user 0</ExtraParams>
+  <Description>Selbst gehostetes Mediacenter für Live-TV, Filme und Serien. VodMax liefert keine Inhalte.</Description>
+  <Config Name="Web-Oberfläche (Port)" Target="8095" Default="8095" Mode="tcp" Description="Weboberfläche und Apps" Type="Port" Display="always" Required="true" Mask="false">8095</Config>
+  <Config Name="Daten" Target="/var/lib/vodmax" Default="/mnt/user/appdata/vodmax" Mode="rw" Description="Datenbank, Aufnahmen, Downloads, Backups" Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/vodmax</Config>
+  <Config Name="Medien (nur Lesen)" Target="/srv/media" Default="/mnt/user/media" Mode="ro" Description="Deine Film- und Serienordner für die Sammlungen (optional)" Type="Path" Display="always" Required="false" Mask="false">/mnt/user/media</Config>
+  <Config Name="PUID" Target="PUID" Default="99" Description="Benutzer, dem die Daten gehören (Unraid: 99, nobody)" Type="Variable" Display="advanced" Required="false" Mask="false">99</Config>
+  <Config Name="PGID" Target="PGID" Default="100" Description="Gruppe, der die Daten gehören (Unraid: 100, users)" Type="Variable" Display="advanced" Required="false" Mask="false">100</Config>
+  <Config Name="Grafikkarte (Intel/AMD)" Target="/dev/dri" Default="" Mode="" Description="Optional: /dev/dri, für Video-Umwandlung mit der Grafikkarte (Einstellungen → System)" Type="Device" Display="advanced" Required="false" Mask="false"></Config>
+  <Config Name="Assistent (Ollama)" Target="VODMAX_ASSISTANT_OLLAMA" Default="" Description="Optional: Adresse eines Ollama-Containers (z. B. http://192.168.1.10:11434), der den eingebauten Assistenten ausführt (Einstellungen → Assistent)" Type="Variable" Display="advanced" Required="false" Mask="false"></Config>
+  <Config Name="Zeitzone" Target="TZ" Default="Europe/Berlin" Description="Zeitzone, für den Programmguide und die Aufnahmen" Type="Variable" Display="always" Required="false" Mask="false">Europe/Berlin</Config>
+  <Config Name="NVIDIA (optional)" Target="NVIDIA_VISIBLE_DEVICES" Default="" Description="Optional: Name der NVIDIA-GPU (nvidia1…) mit NVIDIA-Treiber-Plugin in Unraid; für Video-Umwandlung mit der Grafikkarte" Type="Variable" Display="advanced" Required="false" Mask="false"></Config>
+  <Config Name="NVIDIA-Treiber (optional)" Target="NVIDIA_DRIVER_CAPABILITIES" Default="" Description="Optional: zusammen mit der GPU-Zeile; in Unraid üblich: all oder utility,video" Type="Variable" Display="advanced" Required="false" Mask="false"></Config>
+</Container>
